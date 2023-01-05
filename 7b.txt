@@ -1,0 +1,31 @@
+print(" SORTING OF UNIQUE STRING IN THE TEXT FILE IN ALPHABETICAL ORDER")
+print(" ---------------------------------------------------------------")
+
+fname = input("Enter file name: ")
+fh = open(fname)
+lst = list()                      
+words=[];
+for line in fh:                    
+    words += line.split()
+words.sort()
+print("The unique words in  alphabetical order are:")
+for word in words:
+    if word in lst:        
+       continue            
+    else:                    
+           lst.append(word)
+           print(word)
+
+Output:
+
+SORTING OF UNIQUE STRING IN THE TEXT FILE IN ALPHABETICAL ORDER
+ ---------------------------------------------------------------
+Enter file name: unique.txt
+The unique words in  alphabetical order are:
+All
+Life
+Music
+ends
+is
+that
+well

@@ -1,0 +1,18 @@
+my_str = input("Enter the String : ")
+my_str = my_str.casefold()
+rev_str = reversed(my_str)
+
+
+if list(my_str) == list(rev_str):
+   print("The string is a palindrome.")
+else:
+   print("The string is not a palindrome.")
+ 
+Output:
+
+Enter the String : racecar
+The string is a palindrome.
+
+Enter the String :  palindrome
+The string is not a palindrome.
+

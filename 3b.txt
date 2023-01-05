@@ -1,0 +1,45 @@
+def mergesort(array):
+        if len(array)>1:
+           m=len(array)//2
+           l=array[:m]
+           r=array[m:]
+           mergesort(l)
+           mergesort(r)
+           i=j=k=0
+           while i<len(l) and j<len(r):
+                 if l[i]<r[j]:
+                         array[k]=l[i]
+                         i+=1
+                 else:
+                        array[k]=r[j]
+                        j+=1
+                 k+=1
+           while i<len(l):
+                array[k]=l[i]
+                i+=1
+                k+=1
+           while j<len(r):
+                array[k]=r[j]
+                j+=1
+                k+=1
+def printlist(array):
+        for i in range(len(array)):
+                print(array[i], end=" ")
+
+        print()
+if __name__=='__main__':
+        num=int(input("Ente3:03 PM 12/30/2022r the number of element:"))
+        print("Enter the elements:")
+        array=[int(input()) for x in range(num)]
+        mergesort(array)
+        print("Sorted Array is:")
+        printlist(array)
+ 
+Output:
+Enter the number of element: 3
+Enter the elements:
+34
+2
+1
+Sorted Array is:
+1 2 34 

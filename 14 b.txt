@@ -1,0 +1,39 @@
+print("\n\t FIBONACCI SERIES")
+print("\t ****************")
+nterms = int(input("\nEnter the number of terms : "))
+n1, n2 = 0, 1
+count = 0
+if nterms <= 0:
+   print("Please enter a positive integer")
+elif nterms == 1:
+   print("Fibonacci series upto",nterms,":",n1)
+else:
+   print("\nFibonacci series")
+   print("****************")
+   while count < nterms:
+       print(n1)
+       nth = n1 + n2
+       n1 = n2
+       n2 = nth
+       count += 1
+
+
+OUTPUT :
+
+	 FIBONACCI SERIES
+	 ****************
+
+Enter the number of terms : 10
+
+Fibonacci series
+****************
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34

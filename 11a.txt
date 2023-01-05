@@ -1,0 +1,14 @@
+print("\n\t CONVERTING A NUMBER INTO CELSIUS INTO FAHRENHEIT")
+print("\n\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+celsius=int(input("Enter the temperature in celcius:"))
+f=(celsius*1.8)+32
+print("Temperature in farenheit is:",f)
+
+Output:
+
+CONVERTING A NUMBER INTO CELSIUS INTO FAHRENHEIT
+
+	 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enter the temperature in celcius: 100
+Temperature in farenheit is: 212.0
