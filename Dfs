@@ -1,0 +1,42 @@
+Dfs
+
+#include <iostream>
+#include <vector>
+using namespace std;
+ static void dfs(int start,vector<int>&result,int vis[],vector<int>adj[]){
+     vis[start]=1;
+     result.push_back(start);
+     for(auto i:adj[start]){
+        if(!vis[i]){
+            dfs(i,result,vis,adj);
+        }
+     }
+     }
+int main()
+{   int m,n,u,v;
+    cout<<"Enter the Number of Edges :";
+    cin>>m;
+    cout<<"Enter the Number of Vertex:";
+    cin>>n;
+    vector<int>adj[n+1];
+    for(int i=0;i<m;i++){
+        cout<<"Enter the connected Edges:";
+        cin>>u;
+        cin>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    for(int i=0;i<=n;i++){
+        for(int j:adj[i]){
+            cout<<j;
+        }
+        cout<<"\n";
+    }
+    int start=1;
+    vector<int>result;
+    int vis[n+1]={0};
+    dfs(start,result,vis,adj);
+    for(int i=0;i<n;i++){
+        cout<<result[i];
+    }
+ }
