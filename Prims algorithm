@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <queue>
+
+#define MAX 100000
+
+using namespace std;
+
+typedef pair<int, int> PII;
+
+vector<PII> edges[MAX];
+bool used[MAX];
+int dist[MAX];
+int n, m;
+
+void prim() {
+    // Initialize the distances to a large value and the used array to false.
+    for (int i = 0; i < n; i++) {
+        dist[i] = MAX;
+        used[i] = false;
+    }
+
+    // Start the algorithm with the first vertex.
+    dist[0] = 0;
+
+    // Use a priority queue to keep track of the vertices that have not been included in the minimum spanning tree
+    // and their distances from the tree so far.
+    priority_queue<PII, vector<PII>, greater<PII>> heap;
+    heap.push({0, 0});
+
+    // Repeat the following process until all vertices have been included in the tree.
+    while (!heap.empty()) {
+        // Get the closest vertex that has not been added to the tree yet.
+        PII p = heap.top();
+        heap.pop();
+        int v = p.second;
+
+        // If this vertex has already been added to the tree, skip it.
+        if (used[v]) {
+            continue;
+        }
+
+        // Add this vertex to the tree.
+        used[v] = true;
+
+        // Update the distances of its neighbors.
+        for (int i = 0; i < edges[v].size(); i++) {
+            int to = edges[v][i].first;
+            int weight = edges[v][i].second;
+            if (!used[to] && dist[to] > weight) {
+                dist[to] = weight;
+                heap.push({dist[to], to});
+            }
+        }
+    }
+}
+
+int main() {
+    // Read the input.
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        edges[x].push_back({y, z});
+        edges[y].push_back({x, z});
+    }
+
+    // Run the algorithm.
+    prim();
+
+    // The final result is the sum of the distances of all vertices, which represents the weight of the minimum spanning tree.
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans += dist[i];
+    }
+    cout << ans << endl;
+
+    return 0;
+}
