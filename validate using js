@@ -1,0 +1,141 @@
+Code:
+Index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>create a Form and Validate the contents</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="box" >
+<div align="center" >
+<h3>Seminar Registeration</h3>
+</div>
+<form action="welcome.html" id="registerForm" >
+<label for="name">Student Name</label>
+<input type="text" name="name" id="name" />
+<label for="email">Email</label>
+<input type="text" name="email" id="email" />
+<label for="clgName">College Name</label>
+<input type="text" name="clgName" id="clgName" />
+<label for="mobileNo">Mobile Number</label>
+<input type="text" name="mobileNo" id="mobileNo" />
+<div class="gender">
+<label for="">Gender</label> <br/> <br />
+<input type="radio" name="gender" id="male" value="male" />
+<label for="male">Male</label>
+<input type="radio" name="gender" id="female" value="female" />
+<label for="female">Female</label>
+<input type="radio" name="gender" id="others" value="others" />
+<label for="others">others</label>
+</div>
+<div align="center" >
+<input type="submit" value="Register">
+</div>
+</form>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+main.js
+document.getElementById('registerForm').addEventListener('submit',(e)=>{
+let user = document.getElementById('name').value;
+let email = document.getElementById('email').value;
+let clgName = document.getElementById('clgName').value;
+let mbleNo = document.getElementById('mobileNo').value;
+let gender = document.getElementsByName('gender');
+let genderValue = false
+let error = [];
+if( user.length <= 2 || !user.match((/^[a-z]+$/)) ){
+error.push("invalid student name");
+}
+if(email.length < 5 || email.indexOf('@') == -1 || email.indexOf('.') == -1 ){
+error.push("Invalid Email Address");
+}
+if(clgName.length < 5){
+error.push("Invalid college name");
+}
+if(mbleNo.length != 10 || !mbleNo.match((/^[0-9]+$/)) ){
+error.push("Invalid Phone Number");
+}
+for(let i=0;i<gender.length;i++){
+if(gender[i].checked){
+genderValue = true
+}
+}
+if(genderValue == false){
+error.push("Plase select gender option")
+}
+if(error.length != 0){
+e.preventDefault()
+alert(error.map((data)=>`\n ${data}`))
+}
+});
+
+
+style.css
+*{
+margin: 0px;
+padding: 0px;
+box-sizing: border-box;
+}
+body{
+width: 100%;
+height: 100vh;
+display: grid;
+place-items: center;
+}
+.box{
+width: 300px;
+border:1px solid #000;
+
+padding: 20px;
+}
+input{
+width: 100%;
+height: 25px;
+margin-bottom: 15px;
+}
+h3{
+padding: 20px;
+}
+input[type="submit"]{
+height: 30px;
+background-color: darkblue;
+border: none;
+outline: none;
+cursor: pointer;
+color: #fff;
+font-size: 16px;
+transition: .5s;
+}
+input[type="submit"]:hover{
+background-color: blue;
+}
+input[type="radio"]{
+width: 12px;
+height: 12px;
+}
+.gender label{
+padding-right: 20px;
+}
+Welcome.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+<div align="center" >
+<h1> Form submitted successfully </h1>
+</div>
+</body>
+</html>
