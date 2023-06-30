@@ -1,0 +1,192 @@
+Package.json {
+"name": "5",
+"version": "1.0.0",
+"description": "",
+"main": "index.js",
+"scripts": {
+"test": "echo \"Error: no test specified\" && exit 1",
+"start": "nodemon server.js"
+},
+"keywords": [],
+"author": "",
+"license": "ISC",
+"dependencies": {
+"express": "^4.18.1",
+"express-handlebars": "^6.0.6",
+"hbs": "^4.2.0",
+"mongodb": "^4.8.1",
+"nodemon": "^2.0.19"
+}
+}
+index.hbs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+body{
+width: 80%;
+margin: 10px 10% auto;
+}
+table,tr{
+border-collapse: collapse;
+text-align: center;
+}
+</style>
+</head>
+<body>
+<center>
+<h1>Student Details</h1>
+</center>
+<div align="right" > <a href="/add">New Record</a> </div>
+<table width="100%" border="1" >
+<thead>
+<tr>
+<th>Roll No</th>
+<th>Name</th>
+<th>DOB</th>
+<th>Email</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+
+<tbody>
+{{#each data}}
+<tr>
+<td>{{this.rollno}}</td>
+<td>{{this.name}}</td>
+<td>{{this.dob}}</td>
+<td>{{this.email}}</td>
+<td>
+<a href="edit/{{this.rollno}}">edit</a>
+<a href="delete/{{this.rollno}}">delete</a>
+</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</body>
+</html>
+add.hbs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+<form action="/create" method="post" >
+<p> Roll No</p>
+<input type="text" name="rollno" required>
+<p>Name</p>
+<input type="text" name="name" required>
+<p>DOB</p>
+<input type="date" name="dob" required>
+<p>Email</p>
+<input type="email" name="email" required>
+<input type="submit" value="submit">
+</form>
+</body>
+</html>
+edit.hbs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+{{#each data}}
+<form action="/update/{{this.rollno}}" method="post" >
+<p> Roll No</p>
+<input type="text" value="{{this.rollno}}" disabled name="rollno" required>
+<p>Name</p>
+
+<input type="text" name="name" value="{{this.name}}" required>
+<p>DOB</p>
+<input type="date" name="dob" value="{{this.dob}}" required>
+<p>Email</p>
+<input type="email" value="{{this.email}}" name="email" required>
+<input type="submit" value="submit">
+</form>
+{{/each}}
+</body>
+</html>
+server.js
+const { response } = require('express')
+const express = require('express')
+const app = express()
+const { engine } = require('express-handlebars')
+const mongo = require('mongodb').MongoClient
+const url = "mongodb://localhost:27017/"
+app.use(express.urlencoded({extended:true}))
+app.use(express.json({extended:true}))
+app.set('views','./views')
+app.set('view engine','hbs')
+app.use('handlebars',engine({express:'hbs'}))
+app.get('/add',(req,res)=>{
+res.render('add')
+})
+app.get('/edit/:rollno',(req,res)=>{
+console.log(req.params.rollno);
+mongo.connect(url,(err,db)=>{
+let dbo = db.db('mydb')
+dbo.collection('student').findOne({"rollno":req.params.rollno},(err,result)=>{
+console.log(result);
+db.close()
+res.render('edit',{data:[result]})
+})
+})
+})
+app.post('/update/:rollno',(req,res)=>{
+mongo.connect(url,(err,db)=>{
+let dbo = db.db('mydb')
+dbo.collection('student').updateOne({"rollno":req.params.rollno},{
+$set:{'rollno':req.params.rollno,
+'name':req.body.name,
+'dob':req.body.dob,
+'email':req.body.email
+}
+},(err,result)=>{
+db.close()
+res.redirect('/')
+})
+})
+
+})
+app.post('/create',(req,res)=>{
+mongo.connect(url,(err,db)=>{
+let dbo = db.db('mydb')
+dbo.collection('student').insertOne(req.body,(err,result)=>{
+db.close()
+res.redirect('/')
+})
+})
+})
+app.get('/',(req,res)=>{
+mongo.connect(url,(err,db)=>{
+let dbo = db.db('mydb')
+dbo.collection('student').find({}).toArray((err,result)=>{
+db.close()
+res.render('index',{data:result})
+})
+})
+})
+app.get('/delete/:rollno',(req,res)=>{
+mongo.connect(url,(err,db)=>{
+let dbo = db.db('mydb')
+dbo.collection('student').remove({"rollno":req.params.rollno},(req,result)=>{
+db.close()
+res.redirect('/')
+})
+})
+})
+app.listen(3000,console.log('server start'))
