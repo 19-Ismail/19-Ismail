@@ -1,0 +1,85 @@
+Package.json {
+"name": "4",
+"version": "1.0.0",
+"description": "",
+"main": "index.js",
+"scripts": {
+"test": "echo \"Error: no test specified\" && exit 1",
+"start": "nodemon server.js"
+},
+"keywords": [],
+"author": "",
+"license": "ISC",
+"dependencies": {
+"express": "^4.18.1",
+"express-handlebars": "^6.0.6",
+"hbs": "^4.2.0",
+"nodemon": "^2.0.19"
+}
+}
+index.hbs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>forms submission</title>
+</head>
+<body>
+<form action="/create" method="post">
+<label for="name">Student Name</label>
+<input type="text" id="name" name="name" required /> <br> <br>
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required />
+<input type="submit" value="submit" />
+</form>
+</body>
+</html>
+emailList.hbs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+<h1>Student Email List </h1>
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+fffffffffffffoooooooooooadfadfakflaksksdfafalskjfal fffffffffffffoooooooooooadfadfakflaksksdfafalskjfal
+fffffffffffffoooooooooooadfadfakflaksksdfafalskjfal
+{{#each data}}
+<p> student name - {{this.name}} </p>
+<p> student email - {{this.email}} </p>
+{{/each}}
+</body>
+</html>
+server.js
+const express = require('express')
+const app = express()
+const { engine } = require('express-handlebars')
+const fs = require('fs')
+app.set('views','./views')
+app.set('view engine','hbs')
+app.use('handlebars',engine({extname:'hbs'}))
+app.use(express.urlencoded({extended:true}))
+app.use(express.json({extended:true}))
+app.get('',(req,res)=>{
+res.render('index')
+})
+app.get('/emailList',(req,res)=>{
+let fdata = fs.readFileSync('data.json','utf-8')
+res.render('emailList',{data:JSON.parse(fdata).items})
+})
+app.post('/create',(req,res)=>{
+let data =fs.readFileSync('data.json','utf-8')
+let value = JSON.parse(data)
+value.items.push(req.body)
+fs.writeFileSync('data.json',JSON.stringify(value))
+res.redirect('/emailList')
+})
+app.listen(3000,console.log('server start'))
+data.json
+{"items":[{"name":"ram","email":"ram@gmail.com"}]}
