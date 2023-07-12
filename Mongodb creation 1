@@ -1,0 +1,149 @@
+To create an employee database with the specified fields in MongoDB and perform the required 
+
+operations, you can follow these steps:
+
+Step 1: Set up MongoDB Install MongoDB on your machine and start the MongoDB server.
+
+Step 2: Create a Database and Collection Open a MongoDB client, such as the MongoDB shell or 
+
+MongoDB Compass, and connect to the MongoDB server. Create a new database and collection for 
+
+the employee records.
+
+javascript
+
+use employeedb
+
+db.createCollection("employees")
+
+Step 3: Insert Sample Employee Data Insert some sample employee data into the collection using 
+
+the insertOne() or insertMany() methods.
+
+javascript
+
+db.employees.insertMany([
+
+ {
+
+ eid: 1,
+
+ ename: "John",
+
+ dept: "IT",
+
+ desig: "Developer",
+
+ salary: 60000,
+
+ yoj: 2018,
+
+ address: {
+
+ dno: "A-101",
+
+ street: "Main Street",
+
+ locality: "Central",
+
+ city: "New York"
+
+ }
+
+ },
+
+ {
+
+ eid: 2,
+
+ ename: "Rahul",
+
+ dept: "HR",
+
+ desig: "Manager",
+
+ salary: 70000,
+
+ yoj: 2016,
+
+ address: {
+
+ dno: "B-202",
+
+ street: "Park Avenue",
+
+ locality: "Downtown",
+
+ city: "San Francisco"
+
+ }
+
+ },
+
+ // Add more employees here...
+])
+Step 4: Display Employees with Salary in Range (50000, 75000) To retrieve employees with 
+
+salaries in the specified range, you can use the $gt (greater than) and $lt (less than) operators in a
+
+query.
+
+javascript
+
+db.employees.find({ salary: { $gt: 50000, $lt: 75000 } })
+
+Step 5: Display Employees with Designation "Developer" To retrieve employees with the 
+
+designation "Developer," you can use the $eq (equal) operator in a query.
+
+javascript
+
+db.employees.find({ desig: "Developer" })
+
+Step 6: Add Array Field "project" to "Rahul" To add an array field "project" to the "Rahul" 
+
+employee record, you can use the $set operator in an update query.
+
+javascript
+
+db.employees.updateOne(
+
+ { ename: "Rahul" },
+
+ { $set: { project: [] } }
+
+)
+
+Step 7: Add Embedded Object "contacts" to "Rahul" To add a new embedded object "contacts" with
+
+"email" and "phone" as array objects to the "Rahul" employee record, you can use the $set
+
+operator with dot notation in an update query.
+
+javascript
+
+db.employees.updateOne(
+
+ { ename: "Rahul" },
+
+ {
+
+ $set: {
+
+ "contacts": {
+
+ email: ["rahul@example.com"],
+
+ phone: ["1234567890"]
+
+ }
+
+ }
+
+ }
+
+)
+
+That's it! You have now created an employee database in MongoDB and performed the required 
+
+operations.
