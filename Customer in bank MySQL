@@ -1,0 +1,106 @@
+To create a table to store customer details in a bank, perform transactions like withdrawal and 
+
+deposit, and determine the customer level (SILVER, GOLD, or PLATINUM) based on their credit 
+
+limit, you can follow these steps using MySQL:
+
+Step 1: Create the Customer table Create a table called Customer with columns for customer 
+
+details and credit limit:
+
+sql
+
+CREATE TABLE Customer (
+
+ customer_id INT PRIMARY KEY,
+
+ customer_name VARCHAR(100) NOT NULL,
+
+ account_number VARCHAR(20) NOT NULL,
+
+ credit_limit DECIMAL(10, 2) NOT NULL,
+
+ balance DECIMAL(10, 2) NOT NULL
+
+);
+
+Step 2: Insert customer data Insert some sample customer data into the Customer table:
+
+sql
+
+INSERT INTO Customer (customer_id, customer_name, account_number, credit_limit, 
+
+balance) VALUES
+
+ (1, 'John Doe', '1234567890', 50000.00, 10000.00),
+
+ (2, 'Jane Smith', '0987654321', 20000.00, 15000.00),
+
+ -- Add more customer data here...
+
+Step 3: Perform transactions (withdrawal and deposit) Perform transactions to update the balance of
+
+a customer. For example, to withdraw an amount:
+
+sql
+
+UPDATE Customer
+
+SET balance = balance - 5000.00
+
+WHERE customer_id = 1;
+
+To deposit an amount:
+
+sql
+
+UPDATE Customer
+
+SET balance = balance + 10000.00
+
+WHERE customer_id = 2;
+
+Step 4: Determine customer level (SILVER, GOLD, or PLATINUM) using IF or CASE statements 
+
+Use the IF or CASE statements to determine the customer level based on their credit limit:
+
+Using IF statement:
+
+sql
+
+SELECT customer_name, credit_limit,
+
+ IF(credit_limit > 50000, 'PLATINUM',
+
+ IF(credit_limit > 10000, 'GOLD', 'SILVER')) AS customer_level
+
+FROM Customer;
+
+Using CASE statement
+SELECT customer_name, credit_limit,
+
+ CASE
+
+ WHEN credit_limit > 50000 THEN 'PLATINUM'
+
+ WHEN credit_limit > 10000 THEN 'GOLD'
+
+ ELSE 'SILVER'
+
+ END AS customer_level
+
+FROM Customer;
+
+These queries will retrieve the customer's name, credit limit, and their respective customer level 
+
+(SILVER, GOLD, or PLATINUM) based on their credit limit.
+
+Please note that in the example above, we assume the credit limit and balance values are stored as 
+
+DECIMAL(10, 2) data types. Adjust the data types accordingly based on your specific 
+
+requirements.
+
+By executing these SQL queries in MySQL, you can create a customer table, perform transactions, 
+
+and determine the customer level based on their credit limit.
