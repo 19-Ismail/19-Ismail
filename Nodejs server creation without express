@@ -1,0 +1,39 @@
+3. Server creation using Node.js without express
+
+server.js
+const http = require("http");
+const fs = require("fs");
+
+const app = http.createServer((req, res) => {
+  if (req.url == "/") {
+    const html = fs.readFileSync("index.html");
+    res.write(html);
+    res.end();
+  }
+  if (req.url == "/css") {
+    const css = fs.readFileSync("style.css");
+    res.write(css);
+    res.end();
+  }
+});
+
+app.listen(3000, console.log("server start"));
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+  </body>
+</html>
+
+style.css
+h1{
+    color: aqua;
