@@ -1,0 +1,25 @@
+2.Fetch API
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="demo"></div>
+    <script>
+      fetch("https://api.github.com/orgs/nodejs")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          let result = document.getElementById("demo");
+          result.innerHTML = `
+            <div>${data.name}</div>
+            <img src="${data.avatar_url}">
+          `;
+        });
+    </script>
+  </body>
+</html
